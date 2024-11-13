@@ -19,6 +19,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+    //mongodb://root:1234@datastore-shard-00-02.oi2e5.mongodb.net:27017/TravelGuide?retryWrites=true&w=majority&appName=dataStore&ssl=true&authSource=admin
     private final UserDetailsServiceImpl userDetailsService;
     private final JwtFilter jwtFilter;
     public SecurityConfig(UserDetailsServiceImpl userDetailsService,JwtFilter jwtFilter){
