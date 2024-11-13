@@ -31,14 +31,15 @@ public class SecurityConfig {
                 http.
                         authorizeHttpRequests(
                                 auth -> auth
-                                        .requestMatchers("/public/**", "/auth/**").permitAll()
+                                        .requestMatchers("/auth/**").permitAll()
                                         .anyRequest().authenticated()
                         )
                         .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                        .addFilterBefore(jwtFilter , UsernamePasswordAuthenticationFilter.class)
                         .csrf(AbstractHttpConfigurer::disable)
                         .cors(AbstractHttpConfigurer::disable)
-                        .build();
+                        .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class).build();
+
+
     }
 
     @Bean
