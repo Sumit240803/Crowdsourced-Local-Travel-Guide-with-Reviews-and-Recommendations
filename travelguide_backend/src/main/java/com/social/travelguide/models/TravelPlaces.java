@@ -14,7 +14,7 @@ public class TravelPlaces {
     private String id;
 
     private String category;
-    private String State;
+    private String state;
     @Field(name = "localPlaces")
     private List<LocalPlaces> localPlaces;
 }

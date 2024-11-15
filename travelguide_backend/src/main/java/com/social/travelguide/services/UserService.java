@@ -60,10 +60,15 @@ public class UserService {
             return response;
         }
     }
-    public Response deleteBucket(BucketList bucketList){
+    public Response deleteBucket(String  name){
         try{
             User user = getLoggedUser();
-            user.getBucketList().remove(bucketList);
+            List<BucketList> bucketLists = user.getBucketList();
+            for(BucketList bucket : bucketLists ){
+                if(bucket.getName().equals(name)){
+                    user.getBucketList().remove(bucket);
+                }
+            }
             Response response = new Response();
             response.setMessage("Bucket Deleted");
             response.setUser(user);
@@ -88,12 +93,13 @@ public class UserService {
                     break;
                 }
             }
+            Response response = new Response();
             if(!updated){
-                throw new RuntimeException("Bucket Not Found");
+                response.setError(("Bucket Not Found"));
             }
             user.setBucketList(bucketLists);
             userRepository.save(user);
-            Response response = new Response();
+
             response.setMessage("Bucket Updated");
             response.setUser(user);
             return response;

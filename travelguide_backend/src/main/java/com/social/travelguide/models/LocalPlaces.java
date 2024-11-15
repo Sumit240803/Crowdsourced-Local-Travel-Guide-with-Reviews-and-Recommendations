@@ -6,5 +6,5 @@ import lombok.Data;
 public class LocalPlaces {
     private String name;
     private Parameters parameters;
-    private Boolean checked;
+
 }

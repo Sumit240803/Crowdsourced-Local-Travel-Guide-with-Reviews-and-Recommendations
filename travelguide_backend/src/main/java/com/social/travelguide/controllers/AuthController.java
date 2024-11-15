@@ -1,5 +1,6 @@
 package com.social.travelguide.controllers;
 
+import com.social.travelguide.dto.LoginDto;
 import com.social.travelguide.dto.Register;
 import com.social.travelguide.dto.Response;
 import com.social.travelguide.services.AuthService;
@@ -18,6 +19,17 @@ public class AuthController {
     public Response register(@RequestBody Register register){
         try{
             return authService.register(register);
+        }catch (Exception e){
+            Response response = new Response();
+            response.setError(e.getLocalizedMessage());
+            return response;
+        }
+    }
+
+    @PostMapping("/login")
+    public Response login(@RequestBody LoginDto loginDto){
+        try{
+            return authService.login(loginDto);
         }catch (Exception e){
             Response response = new Response();
             response.setError(e.getLocalizedMessage());
