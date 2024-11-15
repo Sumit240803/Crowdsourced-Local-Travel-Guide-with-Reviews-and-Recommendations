@@ -60,5 +60,47 @@ public class UserService {
             return response;
         }
     }
-
+    public Response deleteBucket(BucketList bucketList){
+        try{
+            User user = getLoggedUser();
+            user.getBucketList().remove(bucketList);
+            Response response = new Response();
+            response.setMessage("Bucket Deleted");
+            response.setUser(user);
+            return response;
+        }catch (Exception e) {
+            Response response = new Response();
+            response.setError(e.getLocalizedMessage());
+            return response;
+        }
+    }
+    public Response editBucket(BucketList bucketList , String bucketName){
+        try{
+            User user = getLoggedUser();
+            List<BucketList> bucketLists = user.getBucketList();
+            boolean updated = false;
+            for(BucketList bucket : bucketLists){
+                if(bucket.getName().equals(bucketName)){
+                    bucket.setName(bucketList.getName());
+                    bucket.setDescription(bucketList.getDescription());
+                    bucket.setPlaces(bucketList.getPlaces());
+                    updated = true;
+                    break;
+                }
+            }
+            if(!updated){
+                throw new RuntimeException("Bucket Not Found");
+            }
+            user.setBucketList(bucketLists);
+            userRepository.save(user);
+            Response response = new Response();
+            response.setMessage("Bucket Updated");
+            response.setUser(user);
+            return response;
+        }catch (Exception e) {
+            Response response = new Response();
+            response.setError(e.getLocalizedMessage());
+            return response;
+        }
+    }
 }

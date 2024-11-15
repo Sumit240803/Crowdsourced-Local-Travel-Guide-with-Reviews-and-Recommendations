@@ -14,5 +14,5 @@ public interface TravelRepository extends MongoRepository<TravelPlaces, String> 
     List<TravelPlaces> findByState(@Nullable String state);
     List<TravelPlaces> findByLocalPlacesName(@Nullable String name);
     @NonNull
-    Page<TravelPlaces> findAll(@Nullable Pageable pageable); // No need for @NonNull
+    Page<TravelPlaces> findAll(@Nullable Pageable pageable);
 }
