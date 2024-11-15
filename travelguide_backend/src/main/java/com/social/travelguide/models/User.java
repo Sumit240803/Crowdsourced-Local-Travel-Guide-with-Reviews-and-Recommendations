@@ -1,7 +1,6 @@
 package com.social.travelguide.models;
 
 import lombok.Data;
-import lombok.Getter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -20,4 +19,6 @@ public class User {
     private String password;
     private String city;
     private List<String> roles  = new ArrayList<>();
+
+    private List<BucketList> bucketList = new ArrayList<>();
 }
