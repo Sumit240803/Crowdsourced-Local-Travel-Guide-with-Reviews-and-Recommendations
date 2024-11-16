@@ -3,8 +3,9 @@ package com.social.travelguide.services;
 import com.social.travelguide.dto.Response;
 import com.social.travelguide.models.BucketList;
 import com.social.travelguide.models.LocalPlaces;
-import com.social.travelguide.models.TravelPlaces;
+import com.social.travelguide.models.PostImages;
 import com.social.travelguide.models.User;
+import com.social.travelguide.repository.PostImagesRepository;
 import com.social.travelguide.repository.TravelRepository;
 import com.social.travelguide.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +23,8 @@ public class UserService {
     private TravelRepository travelRepository;
     @Autowired
     private  UserRepository userRepository;
-
+    @Autowired
+    private PostImagesRepository postImagesRepository;
     public User getLoggedUser() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -123,6 +125,74 @@ public class UserService {
             }
             return response;
 
+        }catch (Exception e) {
+            Response response = new Response();
+            response.setError(e.getLocalizedMessage());
+            return response;
+        }
+    }
+    public Response uploadImage(List<String> imgUrls,String caption){
+        try{
+            User user = getLoggedUser();
+            PostImages postImages = new PostImages();
+            postImages.setUserId(user.getId());
+            postImages.setCaption(caption);
+            for(String imgUrl : imgUrls){
+                postImages.getMultiImages().add(imgUrl);
+            }
+            postImagesRepository.save(postImages);
+            Response response = new Response();
+            response.setMessage("Images Added");
+            return response;
+        }catch (Exception e) {
+            Response response = new Response();
+            response.setError(e.getLocalizedMessage());
+            return response;
+        }
+    }
+    public Response editImage(String caption ,String id){
+        try{
+
+            Optional<PostImages> postImages = postImagesRepository.findById(id);
+            Response response = new Response();
+            if(postImages.isPresent()){
+                PostImages editImage = postImages.get();
+                editImage.setCaption(caption);
+
+                response.setMessage("Images Added");
+
+            }
+            return response;
+        }catch (Exception e) {
+            Response response = new Response();
+            response.setError(e.getLocalizedMessage());
+            return response;
+        }
+    }
+
+    public Response deleteImage(String id){
+        try{
+            Optional<PostImages> postImages = postImagesRepository.findById(id);
+            Response response = new Response();
+            postImages.ifPresent(images -> postImagesRepository.delete(images));
+            return response;
+        }catch (Exception e) {
+            Response response = new Response();
+            response.setError(e.getLocalizedMessage());
+            return response;
+        }
+    }
+    public Response myImages(){
+        try{
+            User user = getLoggedUser();
+            List<PostImages> postImages = postImagesRepository.findByUserId(user.getId());
+            Response response = new Response();
+            if(postImages!=null){
+                for(PostImages myImage : postImages){
+                    response.getImages().add(myImage);
+                }
+            }
+            return response;
         }catch (Exception e) {
             Response response = new Response();
             response.setError(e.getLocalizedMessage());

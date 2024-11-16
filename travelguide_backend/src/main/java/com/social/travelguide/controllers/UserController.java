@@ -1,6 +1,7 @@
 package com.social.travelguide.controllers;
 
 import com.social.travelguide.dto.BucketDto;
+import com.social.travelguide.dto.ImageDto;
 import com.social.travelguide.dto.Response;
 import com.social.travelguide.models.BucketList;
 import com.social.travelguide.services.UserService;
@@ -58,6 +59,41 @@ public class UserController {
     public ResponseEntity<?> checkBucket(@RequestBody BucketDto bucketDto){
         try{
             Response response = userService.checkBucket(bucketDto.getName());
+            return ResponseEntity.ok().body(response);
+        }catch (Exception e){
+            Response response = new Response();
+            response.setError(e.getLocalizedMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+    @PostMapping("/uploadImage")
+    public ResponseEntity<?> uploadImage(@RequestBody ImageDto imageDto){
+        try{
+            Response response = userService.uploadImage(imageDto.getImages(),imageDto.getCaption());
+            return ResponseEntity.ok().body(response);
+        }catch (Exception e){
+            Response response = new Response();
+            response.setError(e.getLocalizedMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+    @PostMapping("/editCaption")
+    public ResponseEntity<?> editImage(@RequestBody ImageDto imageDto){
+        try{
+            Response response = userService.editImage(imageDto.getCaption(),imageDto.getId());
+            return ResponseEntity.ok().body(response);
+        }catch (Exception e){
+            Response response = new Response();
+            response.setError(e.getLocalizedMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+    @PostMapping("/deleteCaption")
+    public ResponseEntity<?> deleteImage(@RequestBody ImageDto imageDto){
+        try{
+            Response response = userService.deleteImage(imageDto.getId());
             return ResponseEntity.ok().body(response);
         }catch (Exception e){
             Response response = new Response();
