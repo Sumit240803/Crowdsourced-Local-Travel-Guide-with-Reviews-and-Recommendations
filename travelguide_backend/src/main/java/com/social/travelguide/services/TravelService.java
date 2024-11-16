@@ -108,4 +108,45 @@ public class TravelService {
         return response;
     }
 
+    public Response addImage(String id, String name, String imageUrl) {
+        Response response = new Response();
+
+        try {
+            Optional<TravelPlaces> travelPlacesOptional = travelRepository.findById(id);
+
+            if (travelPlacesOptional.isPresent()) {
+                TravelPlaces travelPlace = travelPlacesOptional.get();
+                List<LocalPlaces> localPlaces = travelPlace.getLocalPlaces();
+
+                boolean placeFound = false;
+
+                for (LocalPlaces local : localPlaces) {
+                    if (local.getName().equals(name)) {
+                        local.getImages().add(imageUrl); // Add the image URL to the images list
+                        placeFound = true;
+                        break;
+                    }
+                }
+
+                if (placeFound) {
+                    travelRepository.save(travelPlace); // Save the updated object to the database
+
+                    response.setMessage("Image added successfully.");
+                } else {
+
+                    response.setMessage("Local place with the given name not found.");
+                }
+            } else {
+
+                response.setMessage("Travel place with the given ID not found.");
+            }
+        } catch (Exception e) {
+
+            response.setMessage("An error occurred: " + e.getMessage());
+        }
+
+        return response;
+    }
+
+
 }

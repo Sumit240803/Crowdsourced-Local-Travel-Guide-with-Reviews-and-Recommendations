@@ -10,4 +10,5 @@ public class LocalPlaces {
     private String name;
     private Parameters parameters;
     private List<String> about= new ArrayList<>();
+    private List<String> images = new ArrayList<>();
 }

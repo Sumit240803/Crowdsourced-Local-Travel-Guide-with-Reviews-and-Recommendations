@@ -1,7 +1,6 @@
 package com.social.travelguide.controllers;
 
 import com.social.travelguide.dto.Response;
-import com.social.travelguide.dto.TravelDto;
 import com.social.travelguide.services.TravelService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -45,4 +44,6 @@ public class Public {
             return ResponseEntity.badRequest().body(response);
         }
     }
+
+   
 }
