@@ -6,6 +6,7 @@ import com.social.travelguide.models.BucketList;
 import com.social.travelguide.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -47,6 +48,18 @@ public class UserController {
             Response response = userService.editBucket(bucketDto.getBucketList(),bucketDto.getName());
             return ResponseEntity.ok().body(response);
         } catch (Exception e){
+            Response response = new Response();
+            response.setError(e.getLocalizedMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+    @PostMapping("/checkBucket")
+    public ResponseEntity<?> checkBucket(@RequestBody BucketDto bucketDto){
+        try{
+            Response response = userService.checkBucket(bucketDto.getName());
+            return ResponseEntity.ok().body(response);
+        }catch (Exception e){
             Response response = new Response();
             response.setError(e.getLocalizedMessage());
             return ResponseEntity.badRequest().body(response);

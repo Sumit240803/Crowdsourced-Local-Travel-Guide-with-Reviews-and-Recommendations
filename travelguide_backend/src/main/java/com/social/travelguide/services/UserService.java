@@ -44,6 +44,7 @@ public class UserService {
     public Response createBucket(String name ,String description, List<LocalPlaces> localPlaces){
         try{
             User user = getLoggedUser();
+
             BucketList bucketList = new BucketList();
             bucketList.setName(name);
             bucketList.setPlaces(localPlaces);
@@ -60,25 +61,24 @@ public class UserService {
             return response;
         }
     }
-    public Response deleteBucket(String  name){
-        try{
+    public Response deleteBucket(String name) {
+        try {
             User user = getLoggedUser();
             List<BucketList> bucketLists = user.getBucketList();
-            for(BucketList bucket : bucketLists ){
-                if(bucket.getName().equals(name)){
-                    user.getBucketList().remove(bucket);
-                }
-            }
+            bucketLists.removeIf(bucket -> bucket.getName().equals(name)); // Removes the bucket
+
             Response response = new Response();
             response.setMessage("Bucket Deleted");
             response.setUser(user);
+            userRepository.save(user);
             return response;
-        }catch (Exception e) {
+        } catch (Exception e) {
             Response response = new Response();
             response.setError(e.getLocalizedMessage());
             return response;
         }
     }
+
     public Response editBucket(BucketList bucketList , String bucketName){
         try{
             User user = getLoggedUser();
@@ -103,6 +103,26 @@ public class UserService {
             response.setMessage("Bucket Updated");
             response.setUser(user);
             return response;
+        }catch (Exception e) {
+            Response response = new Response();
+            response.setError(e.getLocalizedMessage());
+            return response;
+        }
+    }
+    public Response checkBucket(String name){
+        try{
+            User user = getLoggedUser();
+            Response response = new Response();
+            List<BucketList> bucketLists = user.getBucketList();
+            for(BucketList bucketList : bucketLists){
+                if(bucketList.getName().equals(name)){
+                    bucketList.setChecked(true);
+                    userRepository.save(user);
+                    response.setMessage("Bucket Checked");
+                }
+            }
+            return response;
+
         }catch (Exception e) {
             Response response = new Response();
             response.setError(e.getLocalizedMessage());
