@@ -13,7 +13,10 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private UserService userService;
-
+    @GetMapping("/testing")
+    public ResponseEntity<?> testing(){
+        return ResponseEntity.ok().body("Hello from server");
+    }
     @PostMapping("/createBucket")
     public ResponseEntity<?> createBucket(@RequestBody BucketDto bucketDto){
         try{

@@ -12,5 +12,5 @@ public class BucketList {
     private String name;
     private String description;
     private List<LocalPlaces> places;
-    private Boolean checked;
+    private Boolean checked = false;
 }
