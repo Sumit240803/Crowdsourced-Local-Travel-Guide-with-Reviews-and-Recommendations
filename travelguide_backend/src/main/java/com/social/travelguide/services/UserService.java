@@ -159,8 +159,8 @@ public class UserService {
                 PostImages editImage = postImages.get();
                 editImage.setCaption(caption);
 
-                response.setMessage("Images Added");
-
+                response.setMessage("Images Updated");
+                postImagesRepository.save(editImage);
             }
             return response;
         }catch (Exception e) {

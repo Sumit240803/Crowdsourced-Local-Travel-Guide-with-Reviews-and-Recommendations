@@ -90,10 +90,22 @@ public class UserController {
             return ResponseEntity.badRequest().body(response);
         }
     }
-    @PostMapping("/deleteCaption")
+    @PostMapping("/deleteImage")
     public ResponseEntity<?> deleteImage(@RequestBody ImageDto imageDto){
         try{
             Response response = userService.deleteImage(imageDto.getId());
+            return ResponseEntity.ok().body(response);
+        }catch (Exception e){
+            Response response = new Response();
+            response.setError(e.getLocalizedMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+    @GetMapping("/images")
+    public ResponseEntity<?> images(){
+        try {
+            Response response = userService.myImages();
             return ResponseEntity.ok().body(response);
         }catch (Exception e){
             Response response = new Response();
