@@ -4,6 +4,7 @@ import com.social.travelguide.dto.BucketDto;
 import com.social.travelguide.dto.ImageDto;
 import com.social.travelguide.dto.Response;
 import com.social.travelguide.models.BucketList;
+import com.social.travelguide.services.TravelService;
 import com.social.travelguide.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,6 +16,8 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @Autowired
     private UserService userService;
+    @Autowired
+    private TravelService travelService;
     @GetMapping("/testing")
     public ResponseEntity<?> testing(){
         return ResponseEntity.ok().body("Hello from server");
@@ -106,6 +109,29 @@ public class UserController {
     public ResponseEntity<?> images(){
         try {
             Response response = userService.myImages();
+            return ResponseEntity.ok().body(response);
+        }catch (Exception e){
+            Response response = new Response();
+            response.setError(e.getLocalizedMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+
+    @PostMapping("/addLocationImage")
+    public ResponseEntity<?> locationImage(@RequestBody ImageDto imageDto){
+        try {
+            Response response = travelService.addImage(imageDto.getId(),imageDto.getLocalPlaceName(),imageDto.getImgUrl());
+            return ResponseEntity.ok().body(response);
+        }catch (Exception e){
+            Response response = new Response();
+            response.setError(e.getLocalizedMessage());
+            return ResponseEntity.badRequest().body(response);
+        }
+    }
+    @PostMapping("/addAbout")
+    public ResponseEntity<?> addAbout(@RequestBody ImageDto imageDto){
+        try {
+            Response response = travelService.addAbout(imageDto.getId(),imageDto.getLocalPlaceName(),imageDto.getCaption());
             return ResponseEntity.ok().body(response);
         }catch (Exception e){
             Response response = new Response();

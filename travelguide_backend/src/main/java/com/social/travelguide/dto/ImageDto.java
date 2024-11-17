@@ -9,4 +9,6 @@ public class ImageDto {
     private String id;
     private List<String> images;
     private String caption;
+    private String localPlaceName;
+    private String imgUrl;
 }
