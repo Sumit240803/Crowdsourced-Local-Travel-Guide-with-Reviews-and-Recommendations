@@ -4,12 +4,10 @@ import com.social.travelguide.dto.AboutDto;
 import com.social.travelguide.dto.BucketDto;
 import com.social.travelguide.dto.ImageDto;
 import com.social.travelguide.dto.Response;
-import com.social.travelguide.models.BucketList;
 import com.social.travelguide.services.TravelService;
 import com.social.travelguide.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

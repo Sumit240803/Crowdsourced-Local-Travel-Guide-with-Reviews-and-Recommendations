@@ -1,5 +1,6 @@
 package com.social.travelguide.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -16,6 +17,7 @@ public class User {
     private String username;
     @Indexed(unique = true)
     private String email;
+    @JsonIgnore
     private String password;
     private String city;
     private List<String> roles  = new ArrayList<>();
