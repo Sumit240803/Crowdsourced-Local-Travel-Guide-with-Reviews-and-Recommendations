@@ -1,5 +1,6 @@
 package com.social.travelguide.controllers;
 
+import com.social.travelguide.dto.AboutDto;
 import com.social.travelguide.dto.BucketDto;
 import com.social.travelguide.dto.ImageDto;
 import com.social.travelguide.dto.Response;
@@ -118,9 +119,9 @@ public class UserController {
     }
 
     @PostMapping("/addLocationImage")
-    public ResponseEntity<?> locationImage(@RequestBody ImageDto imageDto){
+    public ResponseEntity<?> locationImage(@RequestBody AboutDto imageDto){
         try {
-            Response response = travelService.addImage(imageDto.getId(),imageDto.getLocalPlaceName(),imageDto.getImgUrl());
+            Response response = travelService.addImage(imageDto.getId(),imageDto.getLocalPlaceName(),imageDto.getUrl());
             return ResponseEntity.ok().body(response);
         }catch (Exception e){
             Response response = new Response();

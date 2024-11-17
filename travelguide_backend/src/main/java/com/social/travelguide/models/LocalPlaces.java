@@ -9,6 +9,6 @@ import java.util.List;
 public class LocalPlaces {
     private String name;
     private Parameters parameters;
-    private List<String> about= new ArrayList<>();
-    private List<String> images = new ArrayList<>();
+    private List<About> about= new ArrayList<>();
+    private List<LocationImages> images = new ArrayList<>();
 }

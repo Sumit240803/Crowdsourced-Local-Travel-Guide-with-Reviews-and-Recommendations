@@ -1,5 +1,6 @@
 package com.social.travelguide.dto;
 
+import com.social.travelguide.models.About;
 import lombok.Data;
 
 import java.util.List;
@@ -10,5 +11,6 @@ public class ImageDto {
     private List<String> images;
     private String caption;
     private String localPlaceName;
-    private String imgUrl;
+    private String url;
+    private About about = null;
 }

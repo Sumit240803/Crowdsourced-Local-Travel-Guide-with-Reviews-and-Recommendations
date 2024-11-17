@@ -1,8 +1,7 @@
 package com.social.travelguide.services;
 
 import com.social.travelguide.dto.Response;
-import com.social.travelguide.models.LocalPlaces;
-import com.social.travelguide.models.TravelPlaces;
+import com.social.travelguide.models.*;
 import com.social.travelguide.repository.TravelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,6 +13,8 @@ import java.util.Optional;
 public class TravelService {
     @Autowired
     private TravelRepository travelRepository;
+    @Autowired
+    private UserService userService;
 
     public Response findCategory(String category){
         try{
@@ -69,9 +70,15 @@ public class TravelService {
     }
 
     public Response addAbout(String id, String name, String about) {
+
         Response response = new Response();
 
         try {
+            User user = userService.getLoggedUser();
+
+            About newAbout = new About();
+            newAbout.setUsername(user.getUsername());
+            newAbout.setPlaceInfo(about);
             Optional<TravelPlaces> travelPlacesOptional = travelRepository.findById(id);
 
             if (travelPlacesOptional.isPresent()) {
@@ -82,7 +89,7 @@ public class TravelService {
 
                 for (LocalPlaces local : localPlaces) {
                     if (local.getName().equals(name)) {
-                        local.setAbout(List.of(about)); // Update the `about` field
+                        local.getAbout().add(newAbout);
                         placeFound = true;
                         break;
                     }
@@ -112,17 +119,24 @@ public class TravelService {
         Response response = new Response();
 
         try {
-            Optional<TravelPlaces> travelPlacesOptional = travelRepository.findById(id);
+            User user = userService.getLoggedUser();
+            LocationImages locationImages = new LocationImages();
+            locationImages.setUsername(user.getUsername());
+            locationImages.setImgUrl(imageUrl);
 
+            Optional<TravelPlaces> travelPlacesOptional = travelRepository.findById(id);
+            //System.out.println(travelPlacesOptional.get());
             if (travelPlacesOptional.isPresent()) {
                 TravelPlaces travelPlace = travelPlacesOptional.get();
+
                 List<LocalPlaces> localPlaces = travelPlace.getLocalPlaces();
 
                 boolean placeFound = false;
 
                 for (LocalPlaces local : localPlaces) {
+
                     if (local.getName().equals(name)) {
-                        local.getImages().add(imageUrl); // Add the image URL to the images list
+                        local.getImages().add(locationImages); // Add the image URL to the images list
                         placeFound = true;
                         break;
                     }
